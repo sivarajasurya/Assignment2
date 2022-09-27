@@ -1,17 +1,13 @@
-
 import java.util.Scanner;
-
 public class Assignment2 {
     public int menu ;
     static Scanner get = new Scanner(System.in);
-
 
     // 1. Enter Person Data
     // 2. Read Person Data
     // 3. To edit existing data
     // 4. Exit
     public void detail() throws Exception {
-
 
         System.out.println(" Enter  1 for  Enter Person Data \n Enter 2 for  Read Person Data \n Enter 3 to edit existing data \n Enter 4 for quit \n Enter your value");
 
@@ -54,11 +50,8 @@ public class Assignment2 {
                 Person obj = new Person();
                 System.out.println("Enter the name of the .xml file that you want to edit \n ");
                 obj.edit(get.next());
-
-
                 detail();
                 break;
-
             }
             //Exit
             case 4: {
@@ -71,14 +64,9 @@ public class Assignment2 {
             detail();
         }
     }
-
-
     public static void main(String[] args) throws Exception {
-
-
         Assignment2 main = new Assignment2();
         main.detail();
-
     }
 }
 
