@@ -71,7 +71,6 @@ public class Person{
             throw new RuntimeException(e);
         }
     }
-
     static Scanner get = new Scanner(System.in);
     static org.slf4j.Logger logger = LoggerFactory.getLogger(Person.class);
 
@@ -80,7 +79,6 @@ public class Person{
     public String write(String xmlFileName) throws Exception{
 
         try {
-
 
             Marshaller marshelling = jaxbContext.createMarshaller();
             marshelling.setProperty(Marshaller.JAXB_FORMATTED_OUTPUT, true);
@@ -95,72 +93,61 @@ public class Person{
             tf.transform(new DOMSource(doc), new StreamResult(out));
             System.out.println(out.toString());
 
-
         }
         catch (Exception e){
             //Log and Throw appropriate exception on error
             logger.error("An exception occurred!", new Exception("Custom exception"));
-
 
         }
         return "successfully saved to filename";
     }
 
     //De-serilize the XML and return the Person object.
-    public static Person personRead(String xmlFilePath) throws Exception{
-
+    public static Person personRead(String xmlFilePath) {
 
       try {
             File file = new File(xmlFilePath);
-
           Unmarshaller jabUnmarshaller = jaxbContext.createUnmarshaller();
           Person p2 = (Person) jabUnmarshaller.unmarshal(file);
-
         return p2;
        } catch (Exception e){
-
            //Log and Throw appropriate exception on error
           logger.error("An exception occurred! ", new Exception("Custom exception"));
        }
     return null;
     }
 
+    public void edit(String xmlFilePath)  {
 
-    public void edit(String xmlFilePath) throws Exception {
+        try {
+            File file = new File(xmlFilePath);
+            Unmarshaller jabUnmarshaller = jaxbContext.createUnmarshaller();
+            Person p3 = (Person) jabUnmarshaller.unmarshal(file);
+            System.out.println("Enter the name to be changed");
+            p3.setName(get.next());
+            this.Name = p3.getName();
+            this.Age = p3.getAge();
+            this.Sex = p3.getSex();
 
-        File file = new File(xmlFilePath);
+            Marshaller marshelling = jaxbContext.createMarshaller();
+            marshelling.setProperty(Marshaller.JAXB_FORMATTED_OUTPUT, true);
+            marshelling.marshal(this, new FileOutputStream(xmlFilePath));
+            System.out.println(p3.getName()+p3.getAge()+".xml is created successfully");
 
-        Unmarshaller jabUnmarshaller = jaxbContext.createUnmarshaller();
-        Person p3 = (Person) jabUnmarshaller.unmarshal(file);
+            File rename = new File(p3.getName()+p3.getAge()+".xml");
+            file.renameTo(rename);
 
-
-        System.out.println("Enter the name to be changed");
-        p3.setName(get.next());
-
-
-
-        this.Name = p3.getName();
-        this.Age = p3.getAge();
-        this.Sex = p3.getSex();
-
-
-        Marshaller marshelling = jaxbContext.createMarshaller();
-        marshelling.setProperty(Marshaller.JAXB_FORMATTED_OUTPUT, true);
-        marshelling.marshal(this, new FileOutputStream(xmlFilePath));
-        System.out.println(p3.getName()+p3.getAge()+".xml is created successfully");
-
-        File rename = new File(p3.getName()+p3.getAge()+".xml");
-        file.renameTo(rename);
-
-        DocumentBuilderFactory dbf = DocumentBuilderFactory.newInstance();
-        DocumentBuilder db = dbf.newDocumentBuilder();
-        Document doc = db.parse(new FileInputStream(rename));
-        Transformer tf = TransformerFactory.newInstance().newTransformer();
-        Writer out = new StringWriter();
-        tf.transform(new DOMSource(doc), new StreamResult(out));
-        System.out.println(out.toString());
+            DocumentBuilderFactory dbf = DocumentBuilderFactory.newInstance();
+            DocumentBuilder db = dbf.newDocumentBuilder();
+            Document doc = db.parse(new FileInputStream(rename));
+            Transformer tf = TransformerFactory.newInstance().newTransformer();
+            Writer out = new StringWriter();
+            tf.transform(new DOMSource(doc), new StreamResult(out));
+            System.out.println(out.toString());
+        }catch (Exception e){
+            logger.error("An exception occurred! ", new Exception("Custom exception"));
+        }
 
     }
-
 
 }
