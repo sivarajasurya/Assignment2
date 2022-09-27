@@ -1,0 +1,16 @@
+Index: bbb23.xml
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/bbb23.xml b/bbb23.xml
+new file mode 100644
+--- /dev/null	(revision 40884dc1ee88bd62ec4f76486671c30cbc02e2e2)
++++ b/bbb23.xml	(revision 40884dc1ee88bd62ec4f76486671c30cbc02e2e2)
+@@ -0,0 +1,6 @@
++<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
++<person>
++    <age>23</age>
++    <name>bbb</name>
++    <sex>109</sex>
++</person>
