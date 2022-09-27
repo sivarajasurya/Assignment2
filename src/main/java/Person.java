@@ -15,6 +15,7 @@ import javax.xml.transform.Transformer;
 import javax.xml.transform.TransformerFactory;
 import javax.xml.transform.dom.DOMSource;
 import javax.xml.transform.stream.StreamResult;
+import org.slf4j.LoggerFactory;
 
 @XmlRootElement
 public class Person{
@@ -72,6 +73,7 @@ public class Person{
     }
 
     static Scanner get = new Scanner(System.in);
+    static org.slf4j.Logger logger = LoggerFactory.getLogger(Person.class);
 
     //Serilize the object as XML and write to the file.
     //And print the .xml file
@@ -83,7 +85,7 @@ public class Person{
             Marshaller marshelling = jaxbContext.createMarshaller();
             marshelling.setProperty(Marshaller.JAXB_FORMATTED_OUTPUT, true);
             marshelling.marshal(this, new FileOutputStream(xmlFileName));
-            System.out.println("employee.xml is created successfully");
+            System.out.println(xmlFileName+" is created successfully");
 
             DocumentBuilderFactory dbf = DocumentBuilderFactory.newInstance();
             DocumentBuilder db = dbf.newDocumentBuilder();
@@ -96,13 +98,10 @@ public class Person{
 
         }
         catch (Exception e){
-
             //Log and Throw appropriate exception on error
+            logger.error("An exception occurred!", new Exception("Custom exception"));
 
-            Logger logger = Logger.getAnonymousLogger();
-            //Exception e1 = new Exception(e);
-            logger.log(Level.SEVERE, "an exception was thrown", e);
-            System.out.println(e);
+
         }
         return "successfully saved to filename";
     }
@@ -121,10 +120,7 @@ public class Person{
        } catch (Exception e){
 
            //Log and Throw appropriate exception on error
-           Logger logger = Logger.getAnonymousLogger();
-           logger.log(Level.SEVERE, "an exception was thrown", e);
-           System.out.println(e);
-
+          logger.error("An exception occurred! ", new Exception("Custom exception"));
        }
     return null;
     }
@@ -136,6 +132,11 @@ public class Person{
 
         Unmarshaller jabUnmarshaller = jaxbContext.createUnmarshaller();
         Person p3 = (Person) jabUnmarshaller.unmarshal(file);
+
+
+        System.out.println("Enter the name to be changed");
+        p3.setName(get.next());
+
 
 
         this.Name = p3.getName();
